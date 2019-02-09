@@ -49,8 +49,19 @@ app.get('/api/books/:_id', (req, res) => {
     })
 })
 
-// add a genre
+// add a book
+app.book('/api/books/', (req, res) => {
+    const book = req.body
+    book.addBook(book, (error, book) => {
+        if (error) {
+            console.log(error)
+        } else {
+            res.json(book)
+        }
+    })
+})
 
+// add a genre
 app.post('/api/genres/', (req, res) => {
     const genre = req.body
     Genre.addGenre(genre, (error, genre) => {
@@ -62,16 +73,31 @@ app.post('/api/genres/', (req, res) => {
     })
 })
 
-app.book('/api/books/', (req, res) => {
-    const book = req.body
-    book.addBook(book, (error, book) => {
+// can update a genre
+app.put('/api/genres/:id', (req, res) => {
+    const id = req.params._id
+    const genre = req.body
+    Genre.updateGenre(id, genre, {}, (error, genre) => {
         if (error) {
             console.log(error)
         } else {
-            res.json(book)
+            res.json(genre)
         }
     })
 })
+
+// delete a genre
+app.delete('/api/genres/;_id', (req, res) => {
+    const id = req.params.id
+    Genre.removeGenre(id, (error, genre) => {
+        if (error) {
+            console.log(error)
+        } else {
+            res.json(genre)
+        }
+    })
+})
+
 
 app.listen(3000)
 console.log("running")
