@@ -3,6 +3,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const mongoose =  require('mongoose')
 
+
+app.use(bodyParser.json())
 Genre = require("./models/genre")
 Book = require("./models/books")
 
@@ -14,6 +16,7 @@ app.get(`/`, (req, res) => {
     res.send("Please use /api/books or /api/genres")
 })
 
+// get all genres
 app.get(`/api/genres`, (req, res) => {
     Genre.getGenres((error, genres) => {
         if (error) {
@@ -24,12 +27,48 @@ app.get(`/api/genres`, (req, res) => {
     })
 })
 
+//get all books
 app.get(`/api/books`, (req, res) => {
     Book.getBooks((error, genres) => {
         if (error) {
             throw error
         } else {
             res.json(genres)
+        }
+    })
+})
+
+// get a single book
+app.get('/api/books/:_id', (req, res) => {
+    Book.getBookById(req.params._id, (error, book) => {
+        if (error) {
+            console.log(error)
+        } else {
+            res.json(book)
+        }
+    })
+})
+
+// add a genre
+
+app.post('/api/genres/', (req, res) => {
+    const genre = req.body
+    Genre.addGenre(genre, (error, genre) => {
+        if (error) {
+            console.log(error)
+        } else {
+            res.json(genre)
+        }
+    })
+})
+
+app.book('/api/books/', (req, res) => {
+    const book = req.body
+    book.addBook(book, (error, book) => {
+        if (error) {
+            console.log(error)
+        } else {
+            res.json(book)
         }
     })
 })
