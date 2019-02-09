@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const mongoose =  require('mongoose')
 
 Genre = require("./models/genre")
+Book = require("./models/books")
 
 mongoose.connect('mongodb://localhost/bookstore', { useNewUrlParser: true })
 const db = mongoose.connection
@@ -15,6 +16,16 @@ app.get(`/`, (req, res) => {
 
 app.get(`/api/genres`, (req, res) => {
     Genre.getGenres((error, genres) => {
+        if (error) {
+            throw error
+        } else {
+            res.json(genres)
+        }
+    })
+})
+
+app.get(`/api/books`, (req, res) => {
+    Book.getBooks((error, genres) => {
         if (error) {
             throw error
         } else {
